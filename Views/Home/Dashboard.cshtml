@@ -1,0 +1,66 @@
+<nav class="navbar sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+        <img src="~/images/activity.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Welcome back, @ViewBag.User.FirstName @ViewBag.User.LastName!
+    </a>
+    <span>
+        <a href="/logout" class="btn btn-outline-light btn-md">Logout</a>
+    </span>
+</nav>
+<div class="container body-content">
+    <div class="col col-lg-10 home background">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Activity</th>
+                        <th scope="col">Date and Time</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Event Coordinator</th>
+                        <th scope="col">No. of Participants</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                    foreach(var a in ViewBag.Activities)
+                        {
+                            bool Attending = false;
+                            foreach(var join in a.Participants)
+                            {
+                                if(join.UserId == ViewBag.User.UserId)
+                                {
+                                    Attending = true;
+                                    break;
+                                }
+                            }
+                            if(a.Date >= DateTime.Now)
+                            {
+                                <tr>
+                                    <td><a href="/@a.ActivityId">@a.Title</a></td>
+                                    <td>@a.Date.ToString("MMM dd, yyyy") at @a.Time</td>
+                                    <td>@a.Duration @a.DurationSelector</td>
+                                    <td>@a.Planner.FirstName @a.Planner.LastName</td>
+                                    <td>@a.Participants.Count</td>
+                                    @{
+                                        if(a.PlannerId == ViewBag.User.UserId )
+                                        {
+                                            <td><a href="/delete/@a.ActivityId">Delete</a></td>
+                                        }
+                                        else if(Attending)
+                                        {
+                                            <td><a href="/leave/@a.ActivityId">Leave</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td><a href="/join/@a.ActivityId">Join</a></td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
+                    </tbody>
+                </table>
+            <a href="new"><button class="btn btn-block btn-dark">Add Event</button></a>
+    </div>
+</div>

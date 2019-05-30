@@ -1,0 +1,28 @@
+﻿@model User
+
+<nav class="navbar sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+        <img src="~/images/activity.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Dojo Activity Center: Login/Registration
+    </a>
+    <form class="form-inline" asp-action="login" asp-controller="Home" method="post">
+        <span>
+            <input class="form-control" placeholder="Email" asp-for="Email" />
+            <input class="form-control" placeholder="Password" asp-for="Password" />
+            <input type="submit" value="Login" class="btn btn-outline-light my-2 my-sm-0">
+        </span>
+    </form>
+</nav>
+<div class="container body-content">
+    <div class="col col-lg-10 home background">
+        <div class="card" style="min-height: 35rem;">
+            <h1>Welcome to the Dojo Activity Center</h1>
+            <div class="row">
+                <div class="card-body col-lg-12">
+                    <partial name="_RegFormPartial" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,54 @@
+@model ActivityEvent
+
+<nav class="navbar sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+        <img src="~/images/activity.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Dojo Activity Center: Activity
+    </a>
+    <span>
+        <a href="/dashboard" class="btn btn-outline-light btn-md">Dashboard</a>
+        <a href="/logout" class="btn btn-outline-light btn-md">Logout</a>
+    </span>
+</nav>
+<div class="container body-content">
+    <div class="col col-lg-10 home background">
+        <div class="card" style="min-height: 35rem;">
+            <div>
+            @{
+                bool Attending = false;
+                foreach (var p in ViewBag.ActivityEvent.Participants)
+                {
+                    if(p.UserId == ViewBag.User)
+                    {
+                        Attending = true;
+                        break;
+                    }
+                }
+                if(@ViewBag.ActivityEvent.PlannerId == @ViewBag.User && Attending)
+                {
+                    <a href="/delete/@ViewBag.ActivityEvent.ActivityId"><button class="btn btn-block btn-dark">Delete</button></a>
+                }
+                else if(Attending)
+                {
+                    <a href="/leave/@ViewBag.ActivityEvent.ActivityId"><button class="btn btn-block btn-dark">Leave</button></a>
+                }
+                else
+                {
+                    <a href="/join/@ViewBag.ActivityEvent.ActivityId"><button class="btn btn-block btn-dark">Join</button></a>
+                }
+            }
+            </div>
+            <h1>@ViewBag.ActivityEvent.Title</h1>
+            <div class="col">
+                <h4>Event Planner: @ViewBag.ActivityEvent.Planner.FirstName</h4>
+                <h4>Description: @ViewBag.ActivityEvent.Description</h4>
+                <ul>
+                    @foreach (var join in ViewBag.ActivityEvent.Participants)
+                    {   
+                        <li>Particpant: @join.Participant.FirstName</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
